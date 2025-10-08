@@ -81,18 +81,19 @@ class QrCodeGenerater:
 
 qr_gen = QrCodeGenerater()
 base_64_data = qr_gen.create_nbu_qr_code(
-    service_label="",
-    qr_version="",
-    encoding_version="",
-    function="",
-    iban="",
-    recipient_name="",
-    recipient_inn="",
-    currency="",
-    amount="",
-    payments_details="",
+    service_label="BCD",
+    qr_version="002",
+    encoding_version="1",
+    function="UCT",
+    iban="UA253001190000026204593746001",
+    recipient_name="Дидик Андрій Володимирович",
+    recipient_inn="3632006899",
+    currency="UAH",
+    amount="100.00",
+    payments_details="Переказ власних коштів",
 )
 path = qr_gen.save_qr_as_png("https://bank.gov.ua/qr/", base_64_data, "test_qr")
 
 print(f"QR збережено: {path}")
 print(base_64_data)
+print(qr_gen.decode_base64_url(base_64_data))
