@@ -102,7 +102,6 @@ base_64_data = qr_gen.create_nbu_qr_code(
     amount="",
     currency="",
     payments_details="",
-    reference=""
 )
 path = qr_gen.save_qr_as_png("https://bank.gov.ua/qr/", base_64_data, "test_qr")
 
