@@ -2,9 +2,20 @@ import os
 import base64
 import qrcode
 
+from faker import Faker
+
+fake = Faker(locale="uk_UA")
 class QrCodeGenerater:
     def __init__(self):
         pass
+
+    def bin_to_hex(self, bin_str: str) -> str:
+        """
+        Convert 16-bit binary string (e.g. '0000100000000000') to 4-digit HEX (e.g. '0800').
+        """
+        if len(bin_str) != 16 or not all(c in "01" for c in bin_str):
+            raise ValueError("Потрібен 16-бітний рядок, що містить лише 0 та 1")
+        return format(int(bin_str, 2), "04X")
 
     def save_qr_as_png(self, url: str, encrypted_qr: str, filename: str) -> str:
         output_dir = "data/qr"
@@ -64,7 +75,7 @@ class QrCodeGenerater:
             f"{lock_code}\n"                      # Код заборони зміни
             f"{expiry_datetime}\n"                # Дата / час дії рахунку (у форматі РРММДДГГХХСС)
             f"{creation_datetime}\n"              # Дата / час формування (у форматі РРММДДГГХХСС)
-            f"{signature}\n"                      # Електронний підпис
+            f"{signature}"                        # Електронний підпис
         )
 
         base64_bytes = base64.urlsafe_b64encode(data.encode('utf-8'))
@@ -81,11 +92,17 @@ class QrCodeGenerater:
 
 qr_gen = QrCodeGenerater()
 base_64_data = qr_gen.create_nbu_qr_code(
-    service_label="BCD",
-    qr_version="001",
-    encoding_version="2",
-    function="UCT",
-    iban="UA253001190000026204593746001",
+    service_label="",
+    qr_version="",
+    encoding_version="",
+    function="",
+    iban="",
+    recipient_name="",
+    recipient_inn="",
+    amount="",
+    currency="",
+    payments_details="",
+    reference=""
 )
 path = qr_gen.save_qr_as_png("https://bank.gov.ua/qr/", base_64_data, "test_qr")
 
