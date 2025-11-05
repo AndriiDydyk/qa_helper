@@ -78,7 +78,9 @@ class QrCodeGenerater:
             f"{signature}"                        # Електронний підпис
         )
 
-        base64_bytes = base64.urlsafe_b64encode(data.encode('utf-8'))
+        selected_encoding = "windows-1251" if encoding_version == "2" else "utf-8"
+        base64_bytes = base64.urlsafe_b64encode(data.encode(selected_encoding, errors="ignore"))
+
         encrypted_qr = base64_bytes.decode('utf-8').rstrip('=')
         return encrypted_qr
 
